@@ -1,10 +1,9 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useEffect, useState, useLayoutEffect } from "react";
-import {SafeAreaView, Text, View, Dimensions, ActivityIndicator, ScrollView, Linking, Alert } from "react-native";
-import {  Button, Divider, Icon, ListItem, Overlay, Tile, Tooltip, Image} from "react-native-elements";
+import React, { useEffect, useLayoutEffect } from "react";
+import {SafeAreaView, Text, View,  ActivityIndicator, ScrollView, Linking, Alert } from "react-native";
+import {  Button, Divider, Icon, ListItem,  Tooltip} from "react-native-elements";
+
 import DisplayPicture from "../extra/displayCom";
-import { Slider } from 'react-native-elements';
-const { width, height } = Dimensions.get('window')
 
 
 export default function DisplayScreen({ route, navigation }) {
@@ -13,12 +12,12 @@ export default function DisplayScreen({ route, navigation }) {
     const [loading, setloading] = React.useState(true)
 
     const [value, setValue] = React.useState(0)
-    const [show, useshow] = React.useState(false)
-    const sendWhatsAppMessage = (datas) => {
+    
+    const sendWhatsAppMessage = () => {
+        try{
         const phoneNumber = data.user.profile.phone_number
         const NewNumber = "234" + phoneNumber
-        const message = "is this product available? "+datas;
-        const whatsappURL = `whatsapp://send?phone=${NewNumber}&text=${encodeURIComponent(message)}`;
+        const whatsappURL = `whatsapp://send?phone=${NewNumber}`;
         Linking.canOpenURL(whatsappURL).then(supported => {
             if (supported) {
                 return Linking.openURL(whatsappURL);
@@ -27,27 +26,18 @@ export default function DisplayScreen({ route, navigation }) {
             }
         }).catch(error => Alert.alert('An error occurred', error));
     }
+    catch{
+        Alert.alert("something went wrong")
+    }
+    }
 
     const makePhoneCall = () => {
 
-        const phoneCallURL = `tel:${data.user.profile.phone_number}`;
+        const phoneCallURL = `tel:${data?.user?.profile?.phone_number}`;
 
         Linking.openURL(phoneCallURL)
             .catch(error => Alert.alert('An error occurred', error));
     }
-
-
-    const time = (time) => {
-        date = new Date(time)
-        return { "year": date.getFullYear(), "month": date.toLocaleString('en-US', { month: 'long' }), "day": date.getDate(), "time": date.getHours(), "sec": date.getMinutes(), "hous": date.getHours >= 12 ? "PM" : "AM" }
-
-    }
-    const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
-
-    const toggleBottomSheet = () => {
-        setIsBottomSheetVisible(!isBottomSheetVisible);
-    };
-
 
     const truncatedString = (str, length) => {
         if (str.length <= length) {
@@ -59,12 +49,12 @@ export default function DisplayScreen({ route, navigation }) {
     }
 
     const proDuctDetails = async () => {
+        setloading(true)
         const itemUrL = `http://softnixx.com/api/details/${item}/`;
         try {
             const response = await fetch(itemUrL);
             const json = await response.json();
             setData(json);
-            setloading(true);
         } catch (error) {
             null
         } finally {
@@ -93,7 +83,6 @@ export default function DisplayScreen({ route, navigation }) {
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
             <ScrollView>
                 <DisplayPicture image={data?.image} />
-
                 <View>
                     <Text style={{ textAlign: "center", fontSize: 30, fontWeight: "bold", includeFontPadding: true, color: "lightgray", padding: 5, margin: 3 }}>Discriptions</Text>
                     <Divider />
@@ -126,29 +115,28 @@ export default function DisplayScreen({ route, navigation }) {
                 justifyContent: "space-around",
             }}>
                 <Button
+                disabled
                     onPress={() => {
                         fetch("https://softnixx.com/api/likes/", {
                             method: "POST",
                             body: JSON.stringify({
-                                user: data.user.id,
-                                post: data.id,
-                                user_n: data.user.username
+                                user: data?.user?.id,
+                                post: data?.id,
+                                user_n: data?.user?.username
                             })
                         }).then(() => proDuctDetails())
                             .catch((e) =>null)
                     }}
                     titleStyle={{
-
                        color:"red",
                         fontSize: 17,
                     }}
-                    title={data.length == 0 ? 0 : data.likes.length}
-
+                    title={data.length == 0 ? 0 : data?.likes?.length}
                     buttonStyle={{
 backgroundColor:null
                     }} icon={{ color: 'darkblue', name: "heart", type: "font-awesome" }} />
                 <Icon onPress={() => makePhoneCall()} name="phone" type="font-awesome" color={"green"} />
-                <Icon onPress={() => sendWhatsAppMessage(item.feeds)} name="whatsapp" type="font-awesome" color={"lightgreen"} />
+                <Icon onPress={() => sendWhatsAppMessage()} name="whatsapp" type="font-awesome" color={"lightgreen"} />
             </View>
            
         </SafeAreaView>

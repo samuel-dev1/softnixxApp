@@ -4,10 +4,11 @@ import React from "react";
 import { View, Text } from "react-native";
 import { Icon } from "react-native-elements";
 
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-8806729694496674/9982521906';
+
 export default function Gift(){
-
-
-    
 
 return(
 
@@ -16,7 +17,6 @@ return(
        backgroundColor:"white",
        justifyContent:"center",
        alignContent:"center",
-       
        alignItems:"center"
     }}>
 
@@ -25,6 +25,13 @@ return(
 No gift available for you 
         </Text>
         <Text h4 h4Style={{color:"#111", fontSize:13}}>Check back later</Text>
+        <BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.LARGE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
     </View>
 )
 }

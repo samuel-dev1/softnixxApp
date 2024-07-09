@@ -1,13 +1,34 @@
 import React from "react";
 
 
-import { View, Text, SafeAreaView, ScrollView,Linking, TouchableOpacity , Alert} from "react-native";
-import { Avatar, Badge, Icon, ListItem, Tile } from "react-native-elements";
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity , Alert,Linking} from "react-native";
+import {  Badge, Icon } from "react-native-elements";
 import FadedImageComponent from "../indicator/indicateAdmin";
 import { useLayoutEffect } from "react";
 
 export default function AllServicePage({ route, navigation }) {
 
+
+
+   const sendWhatsAppMessage = (phone_number) => {
+      try {
+        const phoneNumber = phone_number?.toString().replace(/^0/, ''); 
+        const NewNumber = "234" + phoneNumber;
+        const whatsappURL = `whatsapp://send?phone=${NewNumber}`;
+    
+        Linking.canOpenURL(whatsappURL).then(supported => {
+          if (supported) {
+            return Linking.openURL(whatsappURL);
+          } else {
+            Alert.alert("WhatsApp is not installed on the device");
+          }
+        }).catch(error => {
+          Alert.alert('An error occurred', error.message);
+        });
+      } catch (error) {
+        Alert.alert("Something went wrong!", error.message);
+      }
+    };
 
    useLayoutEffect(() => {
       navigation.setOptions({
@@ -38,7 +59,7 @@ export default function AllServicePage({ route, navigation }) {
                   flexDirection: "column",
                   alignSelf: "auto",
                   width: 120,
-                  backgroundColor: "darkblue",
+               
                   padding: 10,
                   borderRadius: 7,
                   margin: 5,
@@ -47,9 +68,9 @@ export default function AllServicePage({ route, navigation }) {
                   shadowOpacity: 0.7
                }}>
                   <Badge status='primary' value="100%" />
-                  <Icon color={"white"} size={40} name="lightbulb" type="material-icon" />
+                  <Icon raised color={"red"} size={30} name="lightbulb" type="material-icon" />
                   <Text style={{
-                     color: "lightgray",
+                     color: "darkblue",
                      fontSize: 20,
                      textAlign: "center"
                   }}  >Electricity</Text>
@@ -57,9 +78,9 @@ export default function AllServicePage({ route, navigation }) {
             </TouchableOpacity>
 
             <Text style={{
-               fontSize: 30,
+               fontSize: 15,
                fontWeight: "bold",
-               color: "darkgray",
+               color: "darkblue",
                textAlign: "center"
             }}>Utilities</Text>
             <View style={{
@@ -69,8 +90,6 @@ export default function AllServicePage({ route, navigation }) {
                justifyContent: "space-around",
 
             }}>
-
-
                <TouchableOpacity
                
                onPress={()=> navigation.navigate("airtime", {  "key": route.params.key,"username": route.params.username, "phone": route.params.phone_number })}
@@ -80,7 +99,7 @@ export default function AllServicePage({ route, navigation }) {
                      flexDirection: "column",
                      alignSelf: "auto",
                      width: 100,
-                     backgroundColor: "darkblue",
+                  
                      padding: 10,
                      borderRadius: 7,
                      margin: 5,
@@ -89,9 +108,9 @@ export default function AllServicePage({ route, navigation }) {
                      shadowOpacity: 0.7
                   }}>
                      <Badge status="error" value="instant" />
-                     <Icon color={"white"} size={40} name="phone-call" type="feather" />
+                     <Icon raised color={"darkblue"} size={30} name="phone-call" type="feather" />
                      <Text style={{
-                        color: "lightgray",
+                        color: "darkblue",
                         fontSize: 20,
                         textAlign: "center"
                      }}>Airtime</Text>
@@ -107,7 +126,7 @@ export default function AllServicePage({ route, navigation }) {
                      flexDirection: "column",
                      alignSelf: "auto",
                      width: 100,
-                     backgroundColor: "darkblue",
+                    
                      padding: 10,
                      borderRadius: 7,
                      margin: 5,
@@ -116,9 +135,9 @@ export default function AllServicePage({ route, navigation }) {
                      shadowOpacity: 0.7
                   }}>
                      <Badge status="error" value="instant" />
-                     <Icon color={"white"} size={40} name="wifi" type="font-awesome" />
+                     <Icon raised color={"darkblue"} size={30} name="wifi" type="font-awesome" />
                      <Text style={{
-                        color: "lightgray",
+                        color: "darkblue",
                         fontSize: 20,
                         textAlign: "center"
                      }}>Data</Text>
@@ -136,7 +155,7 @@ export default function AllServicePage({ route, navigation }) {
                      flexDirection: "column",
                      alignSelf: "auto",
                      width: 120,
-                     backgroundColor: "darkblue",
+               
                      padding: 10,
                      borderRadius: 7,
                      margin: 5,
@@ -145,9 +164,9 @@ export default function AllServicePage({ route, navigation }) {
                      shadowOpacity: 0.7
                   }}>
                      <Badge status='success' value="dependant" />
-                     <Icon color={"white"} size={40} name="school-outline" type="material-community" />
+                     <Icon raised color={"darkblue"} size={30}  name="school-outline" type="material-community" />
                      <Text style={{
-                        color: "lightgray",
+                        color: "darkblue",
                         fontSize: 20,
                         textAlign: "center"
                      }} >Education</Text>
@@ -155,13 +174,11 @@ export default function AllServicePage({ route, navigation }) {
                </TouchableOpacity>
             </View>
             <Text style={{
-               fontSize: 30,
+               fontSize: 15,
                fontWeight: "bold",
-               color: "darkgray",
+               color: "darkblue",
                textAlign: "center"
-            }}>Extra and Upcoming</Text>
-
-
+            }}>Extra and Profit</Text>
             <View style={{
                display: "flex",
                flexDirection: "row",
@@ -169,7 +186,6 @@ export default function AllServicePage({ route, navigation }) {
                justifyContent: "space-around",
 
             }}>
-
                <TouchableOpacity
                
                onPress={()=>Alert.alert("Not available","This service is currently down")}
@@ -179,7 +195,6 @@ export default function AllServicePage({ route, navigation }) {
                      flexDirection: "column",
                      alignSelf: "auto",
                      width: 100,
-                     backgroundColor: "#333",
                      padding: 10,
                      borderRadius: 7,
                      margin: 5,
@@ -188,9 +203,11 @@ export default function AllServicePage({ route, navigation }) {
                      shadowOpacity: 0.7
                   }}>
                      <Badge status="error" value="soon" />
-                     <Icon color={"green"} size={40} name="wallet-giftcard" type="material-commnuity" />
+                     <Icon
+                     onPress={()=>sendWhatsAppMessage(+'09061229992')}
+                     raised color={"darkblue"} size={30} name="wallet-giftcard" type="material-commnuity" />
                      <Text style={{
-                        color: "lightgray",
+                        color: "darkblue",
                         fontSize: 20,
                         textAlign: "center"
                      }}  >
@@ -198,17 +215,15 @@ export default function AllServicePage({ route, navigation }) {
                      </Text>
                   </View>
                </TouchableOpacity>
-
                <TouchableOpacity
                 onPress={()=>Alert.alert("Not available","This service is currently down")}
-               
                >
                   <View style={{
                      display: "flex",
                      flexDirection: "column",
                      alignSelf: "auto",
                      width: 100,
-                     backgroundColor: "#333",
+                    
                      padding: 10,
                      borderRadius: 7,
                      margin: 5,
@@ -217,10 +232,11 @@ export default function AllServicePage({ route, navigation }) {
                      shadowOpacity: 0.7
                   }}>
                      <Badge status="error" value="18+" />
-                     <Icon color={"green"} size={40} name="slot-machine-outline" type="material-community" />
+                     <Icon 
+                     raised color={"darkblue"} size={30} name="slot-machine-outline" type="material-community" />
                      <Text
                         style={{
-                           color: "lightgray",
+                           color: "darkblue",
                            fontSize: 20,
                            textAlign: "center"
                         }}
@@ -239,18 +255,19 @@ export default function AllServicePage({ route, navigation }) {
                      flexDirection: "column",
                      alignSelf: "auto",
                      width: 120,
-                     backgroundColor: "darkblue",
+                    
                      padding: 10,
                      borderRadius: 7,
                      margin: 5,
                      shadowColor: "#fff",
-
                      shadowOpacity: 0.7
                   }}>
                      <Badge status='primary' value="100%" />
-                     <Icon color={"white"} size={40} name="tv" type="feather" />
+                     <Icon 
+                      raised color={"darkblue"} size={30} 
+                     name="tv" type="feather" />
                      <Text style={{
-                        color: "lightgray",
+                        color: "darkblue",
                         fontSize: 20,
                         textAlign: "center"
                      }}  >Television</Text>
@@ -259,9 +276,9 @@ export default function AllServicePage({ route, navigation }) {
             </View>
             <Text
                style={{
-                  fontSize: 30,
+                  fontSize: 15,
                   fontWeight: "bold",
-                  color: "darkgray",
+                  color: "darkblue",
                   textAlign: "center"
                }}
             >Crypto Transaction</Text>
@@ -272,24 +289,55 @@ export default function AllServicePage({ route, navigation }) {
                   flexDirection: "column",
                   alignSelf: "auto",
                   width: 200,
-                  backgroundColor: "#333",
                   padding: 10,
                   borderRadius: 7,
                   margin: 5,
                   shadowColor: "#fff",
-
                   shadowOpacity: 0.7
                }}>
                   <Badge status='primary' value="100%" />
-                  <Icon color={"green"} size={40} name="currency-btc" type="material-community" />
+                  <Icon 
+                   raised color={"darkblue"} size={30}  name="currency-btc" type="material-community" />
                   <Text style={{
-                     color: "lightgray",
+                     color: "darkblue",
                      fontSize: 20,
                      textAlign: "center"
                   }}  >Cryto Transaction</Text>
                </View>
             </TouchableOpacity>
 
+
+            <Text
+               style={{
+                  fontSize: 15,
+                  fontWeight: "bold",
+                  color: "darkblue",
+                  textAlign: "center"
+               }}
+            >Games point and fun</Text>
+            <TouchableOpacity
+              onPress={()=>sendWhatsAppMessage(+'09061229992')} >
+               <View style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignSelf: "auto",
+                  width: 200,
+                  padding: 10,
+                  borderRadius: 7,
+                  margin: 5,
+                  shadowColor: "#fff",
+                  shadowOpacity: 0.7
+               }}>
+                  <Badge status='error' value="manual" />
+                  <Icon 
+                   raised color={"darkblue"} size={30}  name="gamepad" type="type-fontawesome" />
+                  <Text style={{
+                     color: "darkblue",
+                     fontSize: 20,
+                     textAlign: "center"
+                  }}  >All game pont here</Text>
+               </View>
+            </TouchableOpacity>
          </ScrollView>
 
 <View style={{
@@ -300,25 +348,6 @@ export default function AllServicePage({ route, navigation }) {
 
 
 </View>
-         <View style={{
-            alignSelf: "center",
-            position: "absolute",
-            bottom: 0,
-            marginBottom: 20,
-            backgroundColor:"darkblue",
-            padding:5,
-            margin:5,
-            borderRadius:10,
-            
-         }}>
-            <Text
-               style={{
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  color:"white"
-               }}
-            >softnixx inc.</Text>
-         </View>
       </SafeAreaView>
    )
 }

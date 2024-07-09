@@ -4,6 +4,11 @@ import Icons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Icon, Tooltip } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
 import ModalGropu from "../indicator/indicator";
+import { useLayoutEffect } from "react";
+
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-8806729694496674/9982521906';
 
 const { width } = Dimensions.get("window");
 export default function SetPinPage({route, navigation}) {
@@ -12,7 +17,6 @@ export default function SetPinPage({route, navigation}) {
     const [see, setSee] = useState(false)
     const [loading, setLoading] = useState(false)
     
-
     const handleDelete = () => {
         if (pin.length > 0) {
           setPin(pin.slice(0, -1));
@@ -33,6 +37,17 @@ export default function SetPinPage({route, navigation}) {
         return (set)
        }
     }
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+          headerTitle: () => (
+            <View>
+              <Text>Change your pin</Text>
+            </View>
+          ),
+        });
+      }, [navigation]);
+
     const SendOver =()=>{
         setLoading(true)
         if(pin !="" && pin !== profile.profile.profile.profile.profile.transaction_pin){           
@@ -118,16 +133,19 @@ export default function SetPinPage({route, navigation}) {
                             C.press (arrow) the blue button to submit
                             </Text></View>
                     }>
-                        <Icon name="info-circle" type="font-awesome" color={"red"} /> 
+                        <Icon raised name="info-circle" type="font-awesome" color={"red"} /> 
                         </Tooltip>
                     </Text>
                 </View>
-                <Icon onPress={()=>setSee(!see)} name={see?'eye-slash':'eye'} type="font-awesome" />
                 <View style={{
-                    padding:15,
-                    margin:15,
+                    margin:"auto"
+                }}>
+                <Icon raised onPress={()=>setSee(!see)} name={see?'eye-slash':'eye'} type="font-awesome" />
+                </View>
+                <View style={{
+                    padding:10,
+                    marginBottom:10,
                     borderColor:"darkgray",
-                    borderWidth:1,
                     alignContent:"center",
                     justifyContent:"center",
                     alignSelf:"center",
@@ -202,6 +220,17 @@ export default function SetPinPage({route, navigation}) {
                 </View>
             </View>
             {loading?<ModalGropu />:null}
+
+         <View>
+         <BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.LARGE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+        
+      />
+         </View>
         </SafeAreaView>
     );
 }
@@ -219,7 +248,7 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 30,
         fontWeight: '600',
-        marginBottom: 10,
+        marginBottom: 5,
     },
     subHeaderText: {
         fontSize: 20,
@@ -229,11 +258,11 @@ const styles = StyleSheet.create({
         flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingBottom: 20,
+        paddingBottom: 5,
     },
     digitRow: {
         flexDirection: 'row',
-        marginBottom: 10,
+        marginBottom: 5,
     },
     digitButton: {
         width: 70,
@@ -242,7 +271,7 @@ const styles = StyleSheet.create({
         backgroundColor: "lightgray",
         justifyContent: "center",
         alignItems: "center",
-        marginHorizontal: 5,
+        marginHorizontal: 7,
     },
     digitText: {
         fontSize: 25,

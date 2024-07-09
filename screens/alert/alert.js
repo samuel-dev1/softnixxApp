@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import { Badge, ListItem } from "react-native-elements";
 import { useLayoutEffect } from "react";
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-8806729694496674/9982521906';
 
 
 export default function Notification({ navigation, route }) {
@@ -89,6 +91,13 @@ export default function Notification({ navigation, route }) {
                     <Text style={{ color: "red" }}>
                         Can't fecth Notifications
                     </Text>
+                    <BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.LARGE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
                 </View>}
                 ListHeaderComponent={<View>
                     

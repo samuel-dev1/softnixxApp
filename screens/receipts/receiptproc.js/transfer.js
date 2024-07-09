@@ -1,12 +1,17 @@
 
 import React from "react";
 
-import { View, Text, ScrollView, SafeAreaView, FlatList, Alert } from "react-native";
-import { Badge, Divider, Icon, ListItem } from "react-native-elements";
+import { View, Text,  SafeAreaView, FlatList } from "react-native";
+import { Badge, Icon, ListItem } from "react-native-elements";
 import { ActivityIndicator } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-8806729694496674/9982521906';
+
 
 export default function TransferPage({ route, navigation }) {
    const [data, setData] = React.useState([])
@@ -15,6 +20,17 @@ export default function TransferPage({ route, navigation }) {
    function MoneyConvert(num) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ".00";
    }
+
+
+   useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: () => (
+          <View>
+            <Text>Receipt for utilties</Text>
+          </View>
+        ),
+      });
+    }, [navigation]);
    function formatDate(dateString) {
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       const date = new Date(dateString);
@@ -82,6 +98,17 @@ export default function TransferPage({ route, navigation }) {
             onRefresh={ApiPost}
             refreshing={loading}
             refreshControl={loading?<ActivityIndicator />:null}
+
+
+            ListEmptyComponent={
+               <BannerAd
+               unitId={adUnitId}
+               size={BannerAdSize.LARGE_BANNER}
+               requestOptions={{
+                 requestNonPersonalizedAdsOnly: true,
+               }}
+             />
+            }
                ListHeaderComponent={
                   <View style={{
                      display: "flex",

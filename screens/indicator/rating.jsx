@@ -24,16 +24,17 @@ const ShowRating = ({ isVisible, onClose }) => {
             ratingTextColor="darkblue"
             ratingBackgroundColor="darkblue"
             showRating
-            fractions={0.5}
-            startingValue={3.3}
-            imageSize={40} // Adjust the size of stars as per your preference
+            fractions={1}
+            startingValue={1}
+            imageSize={50} // Adjust the size of stars as per your preference
             style={{ paddingVertical: 10 }}
           />
           <Button
          raised
             onPress={() => onClose()}
            buttonStyle={{
-            backgroundColor:"darkblue"
+            backgroundColor:"darkblue",
+            width:200,
            }}
             title={"Not now"}
           />

@@ -1,10 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { View, Text, SafeAreaView, StatusBar, Dimensions, TouchableOpacity, Alert, FlatList, Linking, ActivityIndicator } from "react-native";
-import { Button, ListItem, Avatar, Input, Icon, Tooltip, Badge, SocialIcon } from "react-native-elements";
+import React, { useState, useEffect } from "react";
+import { View, Text, SafeAreaView, Dimensions, TouchableOpacity, Alert, FlatList, Linking, ActivityIndicator } from "react-native";
+import { Button, ListItem, Input, Icon, Tooltip, Badge, SocialIcon } from "react-native-elements";
 import Icons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useFocusEffect } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Overlay } from "react-native-elements";
+
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-8806729694496674/9982521906';
 
 const { height, width } = Dimensions.get('window');
 
@@ -54,7 +56,7 @@ export default function Contact({ route, navigation }) {
         } catch (error) {
             setLoading(false);
             Alert.alert(
-                "Title",
+                "Network Error",
                 "network error! check your network and try again",
                 [
                     { text: "Cancel", style: "cancel" },
@@ -69,8 +71,8 @@ export default function Contact({ route, navigation }) {
 
 
     
-const sendWhatsAppMessage = (datas) => {        
-        const NewNumber = +2348130423221
+const sendWhatsAppMessage = () => {        
+        const NewNumber = +2349061229992
         const message ="hi from softnixx";
         const whatsappURL = `whatsapp://send?phone=${NewNumber}&text=${encodeURIComponent(message)}`;
         Linking.canOpenURL(whatsappURL).then(supported => {
@@ -84,8 +86,6 @@ const sendWhatsAppMessage = (datas) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-             
-
                 <View>
                     <Tooltip containerStyle={{
                         height: height * 0.3,
@@ -223,14 +223,18 @@ const sendWhatsAppMessage = (datas) => {
                         />
                     </View>
                 </View>
-                
-    
 <View style={{
     padding:5,
     margin:5,
     alignSelf:"center",
 }}>
-
+<BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.LARGE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
 
 </View>
         </SafeAreaView>

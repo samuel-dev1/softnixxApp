@@ -21,7 +21,6 @@ const PointConverter = ({ route, modal, setModalVisible, point}) => {
       });
       return;
     }
-
     setLoading(true);
     fetch("https://softnixx.com/api/convert", {
       method: "POST",

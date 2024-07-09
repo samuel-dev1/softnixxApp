@@ -5,6 +5,7 @@ import Datascreen2 from "../indicator/gifting";
 import Datascreen3 from "../indicator/prom";
 const BottomTab = createMaterialTopTabNavigator()
 
+
 const DatascreenNav = ({ data,
    value,
    check,

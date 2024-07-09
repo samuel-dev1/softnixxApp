@@ -3,7 +3,7 @@
 import React from "react";
 import { useLayoutEffect } from "react";
 import { View, Text, Alert, SafeAreaView, ScrollView } from "react-native";
-import { Avatar, Divider, Icon, ListItem, Overlay ,Tooltip } from "react-native-elements";
+import { Avatar, Divider, Icon, ListItem,Tooltip } from "react-native-elements";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { showMessage } from "react-native-flash-message";
@@ -283,7 +283,7 @@ export default function Profile({ route, navigation }) {
 
                         </ListItem.Content>
                     </ListItem>
-                    <ListItem bottomDivider onPress={() => navigation.navigate("passwordreset")}>
+                    <ListItem bottomDivider onPress={() => navigation.navigate("password change")}>
 
                         <Avatar icon={{ name: 'key', type: "font-awesome", size: 30, color: "darkgray" }} />
                         <ListItem.Content>
@@ -296,7 +296,7 @@ export default function Profile({ route, navigation }) {
                     </ListItem>
 
                     <Text h4 h4Style={{ color: "#111", textAlign: "center", alignSelf: "center", fontSize: 17, paddingTop: 10 }}>Pin and Account</Text>
-                    <ListItem bottomDivider onPress={() => navigation.navigate('Change transaction pin', { 'profile': profile })}>
+                    <ListItem bottomDivider onPress={() => navigation.navigate('pin', { 'profile': profile })}>
                         <ListItem.Content>
                             <Text>
                                 Transaction Pin

@@ -72,7 +72,6 @@ export default function PaymentAll({
                      name: 'gift',
                   })
                })
-
             }
          } catch (error) {
             Alert.alert(data.message || data.status);

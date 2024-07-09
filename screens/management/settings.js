@@ -1,8 +1,6 @@
 import React from "react";
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Alert, Linking, Image } from "react-native";
-import { Avatar, Accessory, Button, Icon, ListItem, Overlay, Text as Tx, Tooltip } from "react-native-elements";
-import { useFocusEffect } from "@react-navigation/native";
-import { Rating, AirbnbRating } from 'react-native-elements';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Alert, Linking, } from "react-native";
+import { Avatar, Accessory, Icon, ListItem, Tooltip } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
 import * as ImagePicker from "expo-image-picker";
 import ModalGropu from "../indicator/indicator";
@@ -21,6 +19,10 @@ export default function Settings({ route, navigation }) {
 
 const Onclose =()=>{
   setLoading(false)
+}
+
+const handleOpen=()=>{
+  setLoading(true)
 }
 
 
@@ -82,8 +84,6 @@ const pickImage = async () => {
   }
 };
 
-
-
    const Getdetails = async () => {
     setLoading(true)
     const itemUrL = `https://softnixx.com/api/updateD/${data==null?key.profile.username:data.username}/`;
@@ -120,11 +120,10 @@ const pickImage = async () => {
         <View style={styles.overall}>
           {data?.profile?.ProfilePic?
           <Avatar
-          
             onPress={pickImage}
             size={100}
             rounded
-            source={{ uri:data?.profile.ProfilePic}}
+            source={{ uri:data?.profile?.ProfilePic}}
             icon={{
               size: 70,
               name: "user-circle",
@@ -247,7 +246,7 @@ const pickImage = async () => {
           <Text>click</Text>
           <ListItem.Chevron />
         </ListItem>
-        <ListItem onPress={() => setLoading(true)} bottomDivider>
+        <ListItem onPress={handleOpen} bottomDivider>
           <Icon raised size={12} name="star" color={"red"} type={'font-awesome'} />
           <ListItem.Content>
            <Text>Rate us</Text>

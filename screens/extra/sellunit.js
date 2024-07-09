@@ -3,11 +3,8 @@ import React, { useState } from "react";
 import { SafeAreaView,Platform, View, StyleSheet, FlatList, ActivityIndicator, Dimensions, Linking, Alert, Animated, TouchableOpacity, RefreshControl , Text} from "react-native";
 import { Badge, Icon, ListItem, SearchBar, Accessory, Divider, Image, Button, Overlay } from "react-native-elements";
 import { Avatar } from "react-native-elements";
-import ModalGropu from "../indicator/indicator";
-
-
-
-
+import { showMessage } from "react-native-flash-message";
+import axios from "axios";
 
 const { width, height } = Dimensions.get('window')
 export default function Extra({ route, navigation }) {
@@ -140,11 +137,9 @@ export default function Extra({ route, navigation }) {
 
 
 
-
     React.useEffect(() => {
             proDuct()
     }, []);
-
 
     function formatDate(dateString) {
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -162,21 +157,25 @@ export default function Extra({ route, navigation }) {
 
         return formattedDate;
     }
-
-
-    const sendWhatsAppMessage = (datas) => {
-        const phoneNumber = data.profile.phone_number
-        const NewNumber = "234" + phoneNumber
-        const message = datas;
-        const whatsappURL = `whatsapp://send?phone=${NewNumber}&text=${encodeURIComponent(message)}`;
-        Linking.canOpenURL(whatsappURL).then(supported => {
+    const sendWhatsAppMessage = (phone_number) => {
+        try {
+          const phoneNumber = phone_number?.toString().replace(/^0/, ''); 
+          const NewNumber = "234" + phoneNumber;
+          const whatsappURL = `whatsapp://send?phone=${NewNumber}`;
+      
+          Linking.canOpenURL(whatsappURL).then(supported => {
             if (supported) {
-                return Linking.openURL(whatsappURL);
+              return Linking.openURL(whatsappURL);
             } else {
-                Alert.alert("WhatsApp is not installed on the device");
+              Alert.alert("WhatsApp is not installed on the device");
             }
-        }).catch(error => Alert.alert('An error occurred', error));
-    }
+          }).catch(error => {
+            Alert.alert('An error occurred', error.message);
+          });
+        } catch (error) {
+          Alert.alert("Something went wrong!", error.message);
+        }
+      };
 
     const makePhoneCall = () => {
         const phoneCallURL = `tel:${data.profile.phone_number}`;
@@ -275,8 +274,9 @@ export default function Extra({ route, navigation }) {
                 refreshing={loading}
                 onEndReachedThreshold={0.1}
                 onEndReached={proDuct}
-                maxToRenderPerBatch={5}
-                initialNumToRender={5}
+                initialNumToRender={10}
+                maxToRenderPerBatch={10}
+                windowSize={7}
                 refreshControl={
                     <RefreshControl
                         refreshing={loading}
@@ -333,13 +333,13 @@ export default function Extra({ route, navigation }) {
                                                 <Text style={{
                                                     fontSize: 17
                                                 }}>
-                                                    {item.user.username}
+                                                    {item?.user?.username}
                                                 </Text>
 
                                             </View>
                                             <View>
                                                 <Text>
-                                                    {profile.profile.is_staff ? <Icon name="check-circle" size={16} type="font-awesome" color={'darkblue'} /> : null}
+                                                    {item?.user?.is_staff ? <Icon name="check-circle" size={16} type="font-awesome" color={'darkblue'} /> : null}
                                                 </Text>
                                             </View>
                                         </View>
@@ -347,18 +347,18 @@ export default function Extra({ route, navigation }) {
                                 </ListItem.Content>
                                 <Text>
 
-                                    {time(item.date_posted).day},{time(item.date_posted).month} {time(item.date_posted).year} {time(item.date_posted).time}:{time(item.date_posted).sec} {time(item.date_posted).hous}
+                                    {time(item?.date_posted).day},{time(item?.date_posted).month} {time(item?.date_posted).year} {time(item?.date_posted).time}:{time(item?.date_posted).sec} {time(item?.date_posted).hous}
                                 </Text>
 
                             </ListItem>
 
-                            <ListItem onPress={() => navigation.navigate('display', { "item": item.id })}>
+                            <ListItem onPress={() => navigation.navigate('display', { "item": item?.id })}>
                                 <Text style={{
                                     marginLeft: 10,
                                 }}> </Text>
                                 <ListItem.Content>
                                     <Text>
-                                        {truncatedString(item.feeds, 300)}
+                                        {truncatedString(item?.feeds, 300)}
                                     </Text>
                                 </ListItem.Content>
 
@@ -393,7 +393,7 @@ export default function Extra({ route, navigation }) {
 
                                 <View>
                                     <Text>chat</Text>
-                                    <Icon onPress={() => sendWhatsAppMessage(item.feeds)} name="whatsapp" type="font-awesome" color={"lightgreen"} />
+                                    <Icon onPress={() => sendWhatsAppMessage(item?.user?.profile?.phone_number)} name="whatsapp" type="font-awesome" color={"lightgreen"} />
                                 </View>
                                 <View>
                                     <Animated.Text style={
@@ -402,7 +402,9 @@ export default function Extra({ route, navigation }) {
                                         <Text>{item.likes.length}</Text>
 
                                         {loading ? <ActivityIndicator /> :
-                                            <Icon onPress={
+                                            <Icon 
+                                            disabled
+                                            onPress={
 
                                                 () => {
                                                     try {
@@ -483,6 +485,15 @@ export default function Extra({ route, navigation }) {
                 right: 0,
                 zIndex: 1,
             }}>
+                  <Icon
+                    onPress={() => navigation.navigate("carousel", { "key": key, "id": profile.profile.id })}
+                    name='play'
+                    raised
+                    style={{
+                        backgroundColor: Platform.OS === 'android' ? 'white' : 'white',
+                        borderRadius: 20,
+                    }} size={20} backgroundColor={Platform.OS === 'android' ? 'white' : 'white'} color="red"
+                    type="font-awesome" />
 
                 <Icon
                     onPress={() => navigation.navigate("newpost", { "key": key, "id": profile.profile.id })}
@@ -492,7 +503,7 @@ export default function Extra({ route, navigation }) {
 
                         backgroundColor: Platform.OS === 'android' ? 'white' : 'white',
                         borderRadius: 20,
-                    }} size={30} backgroundColor={Platform.OS === 'android' ? 'white' : 'white'} color="darkblue"
+                    }} size={20} backgroundColor={Platform.OS === 'android' ? 'white' : 'white'} color="darkblue"
                     type="font-awesome" />
 
             </View>

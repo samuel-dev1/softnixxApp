@@ -4,8 +4,6 @@ import { Button } from 'react-native-elements/dist/buttons/Button';
 import { TextInput } from 'react-native';
 
 const BottomSheetComments = ({ comments, isVisible, onClose, comment, Setcoment, getAll }) => {
-
-
   return (
     <BottomSheet
 

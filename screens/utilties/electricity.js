@@ -3,15 +3,15 @@ import { Dropdown } from "react-native-element-dropdown";
 import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { Dimensions } from "react-native";
 import { Button, Divider, Icon, ListItem, BottomSheet, CheckBox } from "react-native-elements";
-import { TextInput } from "react-native";
+
 import { encode } from 'base-64';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { showMessage } from "react-native-flash-message";
 import Icons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useLayoutEffect } from "react";
 const { width, height } = Dimensions.get("window")
-import { Overlay } from "react-native-elements";
 import ModalGropu from "../indicator/indicator";
+import CustomOverlay from "../indicator/flayersforUtil";
 
 export default function Electricity({ route, navigation }) {
 
@@ -29,15 +29,16 @@ export default function Electricity({ route, navigation }) {
     const [show, useShow] = useState(false)
     const [smartcardMettP, useSmartcarmetP] = useState('')
 
-
-
     function MoneyConvert(num) {
-        try{
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ".00";
-        }
-        catch{
-            return 0.0
-        }
+        return num?.toLocaleString();
+    }
+
+
+
+
+    const handleView=()=>{
+        setIsVisible(!isVisible),
+     setOverlay(false)
     }
 
     const dataCard = [
@@ -153,66 +154,6 @@ export default function Electricity({ route, navigation }) {
 
 
 
-function  MyoverLay(){
-
-    return(
-        <Overlay overlayStyle={{
-            padding:10,
-            borderRadius:20,
-        }} style={{
-            padding:10,
-        }} visible={overlay}>
-            <View style={{
-                padding:30,
-
-            }}>
-                <Icon name="exclamation-circle" type="font-awesome" color={'red'} size={40} />
-                <Text style={{
-                    padding:6,
-                    textAlign:"center",
-                    color:"darkblue",
-                    fontSize:19,
-
-                }}>
-                    You are about to make a transaction of &#8358;{Amount==null?null:MoneyConvert(Amount)} for {value} of {meters}.
-                </Text>
-
-                <View style={{
-                    backgroundColor:null,
-                   
-                    borderRadius:5,
-                    display:"flex",
-                    flexDirection:"row",
-                    justifyContent:"space-around",
-                    alignSelf:"center"
-                }}>
-                    <Button onPress={()=>{setIsVisible(!isVisible), setOverlay(false)}} buttonStyle={{
-                        backgroundColor:null,
-                        margin:10,
-                        width:150,
-                        padding:10,
-                        borderRadius:10,
-                        borderWidth:0.5,
-                        borderColor:"darkblue"
-
-                    }} titleStyle={{
-                        color:"darkblue", 
-                        fontWeight:"bold",
-
-                    }}  title={"Continue"} />
-                    <Button  onPress={()=>setOverlay(false)} buttonStyle={{
-                        backgroundColor:"darkblue",
-                        margin:10,
-                        width:100,
-                        padding:10,
-                        borderRadius:10,
-                    }} title={"Cancel"} />
-                </View>
-            </View>
-        </Overlay>
-    )
-}
-
     const OpenModal = () => {
         const [pin, setPin] = React.useState("");
         const handlePinInput = (val) => {
@@ -325,14 +266,26 @@ function  MyoverLay(){
                     shadowColor: "#000",
                     shadowOpacity: 0.5,
                 }}>
-                    <Icon
-                    disabled={show}
-                        onPress={() => setIsVisible(false)}
-                        name='chevron-down'
-                        size={20}
-                        color={"lightgray"}
-                        type="font-awesome"
-                    />
+                  <View style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+               }}>
+                  <Icon
+                     name="close"
+                     color="gray"
+                     iconStyle={{
+                        borderWidth: 0.5,
+                        borderRadius: 80,
+                        padding:10,
+                        margin:5,
+
+                     }}
+                     onPress={() => setIsVisible(false)}
+                  />
+                  <Text></Text>
+               </View>
                     <View style={{
                         width: width * 0.90,
                         alignSelf: "center",
@@ -615,17 +568,17 @@ function  MyoverLay(){
                         <Icon name="check-circle" type="font-awesome" color={"darkblue"} />
                         <ListItem.Content>
                             <ListItem.Content>
-                                <ListItem.Subtitle style={{
+                                <Text style={{
                                     color: "green",
                                     textAlign: "justify",
                                 }}>
                                     {dataT.content.Customer_Name}
-                                </ListItem.Subtitle>
+                                </Text>
                             </ListItem.Content>
                         </ListItem.Content>
-                        <ListItem.Subtitle>
+                        <Text>
                             {dataT.content.Address}
-                        </ListItem.Subtitle>
+                        </Text>
                     </ListItem>
                 }
 
@@ -675,7 +628,15 @@ function  MyoverLay(){
             
             </ScrollView>
             {loading?<ModalGropu />:null}
-<MyoverLay />
+            <CustomOverlay 
+            isVisible={overlay}
+            amount={Amount}
+            route={route}
+            onClose={setOverlay}
+            view={handleView}
+            phone={`${value} of ${meters}`}
+
+                 />
             <OpenModal />
         </View>
     )

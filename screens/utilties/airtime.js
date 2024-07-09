@@ -1,23 +1,18 @@
 import React from "react";
 
-import { useState, useEffect, useCallback, useContext } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, Dimensions, TextInput, StyleSheet, Modal, ActivityIndicator, FlatList, TouchableOpacity, Alert } from "react-native";
 import { ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 import { BottomSheet, Button, Overlay } from "react-native-elements";
 import { useLayoutEffect } from "react";
 import * as Contacts from 'expo-contacts';
 import Icons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Avatar, Icon } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
-import { Dropdown } from "react-native-element-dropdown";
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { encode } from "base-64";
 import ModalGropu from "../indicator/indicator";
 import CustomOverlay from "../indicator/flayersforUtil";
 import CustomUtilesDrop from "../indicator/utilitiesSelect";
-
-
 
 const { width, height } = Dimensions.get("window")
 
@@ -25,14 +20,12 @@ export default function Airtime({ route, navigation }) {
    const [datar, setDatar] = useState(null)
    const [loading, setLoading] = useState(true)
    const [value, setValue] = useState(null);
-   const [isFocus, setIsFocus] = useState(false);
    const [selectedNumber, setSelectedNumber] = useState(null)
    const [contact, setContact] = useState([])
    const [visible, setIsVisible] = useState(false)
    const [control, setControl] = useState(false)
    const [amount, setAmount] = useState('')
    const [overlay, setOverlay] = useState(false)
-   const [data, setData] = useState([])
    const [show, setShow] = useState(false)
 
 
@@ -162,7 +155,7 @@ export default function Airtime({ route, navigation }) {
                               })
                            })
                               .then(() => navigation.navigate("Status", { "data": data.content.response_description, 'key': route.params.key }))
-                              .catch(error => {
+                              .catch(() => {
                                  showMessage({
                                     message: "Error processing receipt",
                                     type: "danger",
@@ -171,7 +164,7 @@ export default function Airtime({ route, navigation }) {
                               }).finally(() => setShow(false));
                         }
                      })
-                     .catch((error) => {
+                     .catch(() => {
                         Alert.alert(
                            "Admin",
                            "Please wait...",

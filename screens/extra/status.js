@@ -7,6 +7,10 @@ import { SafeAreaView } from "react-native";
 import { Image } from "react-native-elements";
 
 
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-8806729694496674/9982521906';
+
 export default function Status({route, navigation}){
       
    return(
@@ -106,10 +110,17 @@ buttonStyle={{
    alignSelf:"center"
 }}>
  <Image style={{
-            height:200,
+            height:100,
             width:100,
          }} source={require("../../assets/show.png")} />
       </View>
+      <BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.LARGE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
       </SafeAreaView>
    )
 }

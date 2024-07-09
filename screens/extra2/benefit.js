@@ -1,9 +1,8 @@
 
-import { DrawerActions } from "@react-navigation/native";
 import React from "react";
 import { useLayoutEffect } from "react";
-import { View, Text, SafeAreaView , Image, ScrollView} from "react-native";
-import { Overlay, Button, Icon, ListItem, Divider, Card } from "react-native-elements";
+import { View, Text, SafeAreaView , ScrollView} from "react-native";
+import { Button, Icon, ListItem, Divider, Card } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
 import { Dimensions } from "react-native";
 import Startover from "./startover";

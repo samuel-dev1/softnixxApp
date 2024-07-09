@@ -22,6 +22,7 @@
     "ios": {
       "supportsTablet": true
     },
+
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -29,8 +30,16 @@
       },
       "permissions": [
         "android.permission.READ_CONTACTS",
-        "android.permission.WRITE_CONTACTS"
+        "android.permission.WRITE_CONTACTS",
+        "RECEIVE_BOOT_COMPLETED",
+        "com.google.android.c2dm.permission.RECEIVE",
+        "android.permission.VIBRATE",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.WAKE_LOCK",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.USE_FULL_SCREEN_INTENT"
       ],
+      "versionCode": 1,
       "package": "com.yourdullboy.softnixx"
     },
     "web": {
@@ -38,8 +47,11 @@
     },
     "extra": {
       "eas": {
-        "projectId": "9e8ec80e-8f78-43bc-9b6d-a83c998d276d"
+        "projectId": "bdc07f60-10d5-4cde-8c94-27ad23674239"
       }
     }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-8806729694496674~8071825815"
   }
 }

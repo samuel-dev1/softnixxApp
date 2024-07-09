@@ -15,7 +15,6 @@ export default function ReceiptSoft({ route, navigation }) {
     const [loading, setLoading] = React.useState(true)
     const [data, setData] = React.useState(null)
     const [loadingt, setLoadingT] = React.useState(false)
-
   
     function MoneyConvert(num) {
       try{

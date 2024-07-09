@@ -2,13 +2,13 @@ import React, { useState, useLayoutEffect } from "react";
 import { View, Text, SafeAreaView, Modal } from "react-native";
 import { Dimensions } from "react-native";
 import { Icon } from "react-native-elements";
-import { Dropdown } from "react-native-element-dropdown";
+
 import { TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import { TextInput } from "react-native";
 import { Button } from "react-native-elements";
 import { FlatList } from "react-native";
-import AntDesign from '@expo/vector-icons/AntDesign';
+
 import * as Contacts from 'expo-contacts';
 import Icons from '@expo/vector-icons/MaterialCommunityIcons';
 import { ActivityIndicator } from "react-native";
@@ -16,12 +16,12 @@ const { width, height } = Dimensions.get("window")
 import { BottomSheet } from "react-native-elements";
 import { Alert } from "react-native";
 import { encode } from "base-64";
-import { Overlay } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
 import ModalGropu from "../indicator/indicator";
 import CustomOverlay from "../indicator/flayersforUtil";
 import CustomUtilesDrop from "../indicator/utilitiesSelect";
 import DatascreenNav from "./datascreemanage";
+
 
 
 export default function DataPAGE({ navigation, route }) {

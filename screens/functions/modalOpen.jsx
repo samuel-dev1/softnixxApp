@@ -2,6 +2,7 @@ import React from "react";
 import { BottomSheet, Icon, Button } from "react-native-elements";
 import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
 export default function ModalsForAirtime({ open, purchased,
     status}) {
   const navigation = useNavigation();

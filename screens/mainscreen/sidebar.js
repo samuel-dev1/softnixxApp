@@ -12,7 +12,11 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 const Drawer = createDrawerNavigator();
 const CustomDrawerContent = (props) => {
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
+  const [email, setEmial] = React.useState(false)
 
+    const handleEmail =  ()=>{
+      setEmial(!email)
+    }
   const navigation = useNavigation();
   const route = useRoute();
   const profile = route?.params?.profile;
@@ -25,11 +29,18 @@ const CustomDrawerContent = (props) => {
       Alert.alert('Error occurred:', error.message);
     }
   };
+
   const handleLogout = () => {
     setShowLogoutConfirmation(true);
   };
 
+  const logOut =()=>{
+    navigation.replace("login");
+    clearStorage();
+    }
+
   const AlertSheet = () => {
+
     return (
       <Modal
         visible={showLogoutConfirmation}
@@ -37,24 +48,33 @@ const CustomDrawerContent = (props) => {
         animationType="slide"
         onRequestClose={() => onClose()}
       >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+        <View style={{ flex: 1, justifyContent:'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
           <View style={{ alignItems: "center", padding: 20, backgroundColor: 'white', borderRadius: 10, width: '80%' }}>
-            <Icon raised name="exclamation" type="font-awesome" color="red" size={40} />
+            <Icon raised  name="exclamation" type="font-awesome" color="red" size={20} />
             <Text style={{ textAlign: "justify", padding: 10 }}>
               You are about to log out and your sessions will be cleared!
             </Text>
-            <View style={{ flexDirection: "row", justifyContent: "space-around", marginTop: 20 }}>
+            <View style={{ flexDirection: "row", width:200, justifyContent: "space-around", marginTop: 20 }}>
+
+              <View>
               <Button
                 title="Log out"
-                buttonStyle={{ backgroundColor: "transparent", borderWidth: 0.5, borderColor: "darkblue" }}
+                buttonStyle={{ backgroundColor: "transparent", borderColor: "darkblue" , margin:3, padding:10}}
                 titleStyle={{ color: "red", fontWeight: "bold" }}
-                onPress={() => { navigation.replace("login"); clearStorage(); onClose(); }}
+                onPress={logOut}
               />
+              </View>
+              <View>
               <Button
+              type='outline'
+          titleStyle={{
+            color:"darkblue"
+          }}
                  title="Cancel"
-                    buttonStyle={{ backgroundColor: "darkblue", borderRadius: 10 }}
+                    buttonStyle={{ borderRadius: 10, borderColor:"darkblue" }}
                     onPress={() => setShowLogoutConfirmation(false)}
               />
+              </View>
             </View>
           </View>
         </View>
@@ -70,7 +90,8 @@ const CustomDrawerContent = (props) => {
       <Text style={{ textAlign: 'center', color: "blue" }}>Data and Utility Management</Text>
       <DrawerItem
         label="Secured ©"
-        icon={() => <Icon raised name="user-circle" type="font-awesome" color="gray" size={20} />}
+        icon={() => <Icon
+           raised name="user-circle" type="font-awesome" color="gray" size={20} />}
         
       />
       <ListItem bottomDivider>
@@ -83,20 +104,22 @@ const CustomDrawerContent = (props) => {
 
       <DrawerItem label="Email and Update" />
       <ListItem bottomDivider>
-        <Icon name="envelope" type="font-awesome" color="brown" />
+        <Icon size={10} raised name="envelope" type="font-awesome" color="brown" />
         <ListItem.Content>
           <Text>
             Send me Update
           </Text>
         </ListItem.Content>
         <Tooltip popover={<Text>Not a fully member</Text>}>
-          <ListItem.CheckBox checked={true} checkedColor="blue" />
+          <ListItem.CheckBox
+          onPress={handleEmail}
+          checked={email} checkedColor="blue" />
         </Tooltip>
       </ListItem>
 
       <DrawerItem label='Track Transaction' />
-      <ListItem bottomDivider onPress={()=>Alert.alert("Please use anyof of medium to contact us")}>
-        <Icon type="font-awesome" name="history" color="darkgray" />
+      <ListItem bottomDivider onPress={()=>Alert.alert("Please use any of our medium provided to contact us")}>
+        <Icon size={10} raised type="font-awesome" name="history" color="darkgray" />
         <ListItem.Content>
           <Text>
             Help ?
@@ -125,7 +148,7 @@ const CustomDrawerContent = (props) => {
       </ListItem>
 
       <DrawerItem label="LOAN" onPress={() => Alert.alert("You are not eligible for LOAN")} />
-      <DrawerItem label="Terms and Conditions" onPress={() => navigation.navigate("term")} />
+      <DrawerItem label="Terms and Conditions" onPress={() => navigation.navigate("check")} />
 
       <ListItem bottomDivider>
         <Badge status="error" value="Coming soon" />
@@ -134,12 +157,12 @@ const CustomDrawerContent = (props) => {
       <DrawerItem
         label="Start Earning"
         onPress={() => Alert.alert("Please wait for update")}
-        icon={() => <Icon name="money" type="font-awesome" raised />}
+        icon={() => <Icon  size={10} name="money" type="font-awesome" raised />}
       />
 
       <DrawerItem
         label="Logout"
-        icon={() => <Icon raised name='power-off' type="font-awesome" size={30} color="brown" />}
+        icon={() => <Icon  raised name='power-off' type="font-awesome" size={10} color="brown" />}
         onPress={handleLogout}
       />
 

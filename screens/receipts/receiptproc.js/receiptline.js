@@ -1,11 +1,15 @@
 
 import React from "react";
 
-import { View, Text, ScrollView, SafeAreaView, FlatList, Alert } from "react-native";
-import { Badge, Divider, Icon, ListItem } from "react-native-elements";
+import { View, Text,  SafeAreaView, FlatList} from "react-native";
+import { Badge, Icon, ListItem } from "react-native-elements";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
+
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-8806729694496674/9982521906';
 
 
 export default function InlineTransfer({ route, navigation }) {
@@ -88,6 +92,16 @@ export default function InlineTransfer({ route, navigation }) {
                onRefresh={ApiPost}
                refreshing={loading}
                refreshControl={loading ? <ActivityIndicator /> : null}
+              
+              ListEmptyComponent={
+               <BannerAd
+               unitId={adUnitId}
+               size={BannerAdSize.LARGE_BANNER}
+               requestOptions={{
+                 requestNonPersonalizedAdsOnly: true,
+               }}
+             />
+              }
                ListHeaderComponent={
                   <View style={{
                      display: "flex",

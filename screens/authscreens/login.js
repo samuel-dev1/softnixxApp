@@ -14,7 +14,6 @@ const LoginScreen = () => {
   const [loadingI, setLoadingI] = useState(false);
   const [see, setSee] = useState(true);
   const [islogin, setLogin] = useState(true);
-
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -51,6 +50,7 @@ const LoginScreen = () => {
         setPassword('');
         setLoading(false);
         await AsyncStorage.setItem('userData', JSON.stringify(data));
+        await AsyncStorage.setItem("control",JSON.stringify({"unit":true}))
         setLogin(true);
         navigation.replace("tabBottom", { key: data.data, profile: data.data2 });
       } else {
@@ -66,8 +66,8 @@ const LoginScreen = () => {
       }
     } catch (error) {
       Alert.alert(
-        'Title',
-        'Gift coming and will be activated on 27th of august 2024',
+        'Network',
+        'Your network is bad!.',
         [
           { text: 'Cancel', style: 'cancel' },
           { text: 'Try again', onPress: () => login() },
@@ -146,13 +146,12 @@ const LoginScreen = () => {
                 type='solid'
                 title='login'
               />
-
               <View style={{ display: 'flex', flexDirection: 'row', alignSelf: 'center', alignItems: 'center', marginTop: 20, padding: 5 }}>
                 <Button  onPress={() => navigation.navigate('register')} type='plain' title={'create account'} />
                 <Button
                 raised
                   onPress={() => {
-                    navigation.navigate('passwordreset');
+                    navigation.navigate('password change');
                   }}
                   icon={{ name: 'key', type: 'font-awesome', size: 16 }}
                   type='outline'
@@ -160,7 +159,6 @@ const LoginScreen = () => {
                 />
               </View>
             </View>
-
             {loading ? <ModalGropu /> : null}
           </View>
         </KeyboardAvoidingView>

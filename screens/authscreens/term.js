@@ -5,7 +5,6 @@ import WebView from "react-native-webview";
 import ModalGropu from "../indicator/indicator";
 
 const Checkterm= ({navigation, route}) => {
-   
    useLayoutEffect(() => {
       navigation.setOptions({
         headerTitle: () => (
@@ -16,8 +15,6 @@ const Checkterm= ({navigation, route}) => {
         ),
       });
     }, [navigation]);
-
-
     return (
 
     <WebView 

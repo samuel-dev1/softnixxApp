@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { View, Image, SafeAreaView, Text, ScrollView, Dimensions } from "react-native";
 import { Button, Icon, ListItem } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
 import * as ImagePicker from "expo-image-picker";
 import ModalGropu from "../indicator/indicator";
+
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-8806729694496674/9982521906';
 
 const { height } = Dimensions.get('window');
 
@@ -11,6 +15,19 @@ const NewPost = ({ route, navigation }) => {
   const [image, setImage] = useState(null);
   const [feeds, setFeeds] = useState('');
   const [buttc, setButtonc] = useState(false);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+        headerTitle: () => (
+            <View>
+    <Text>Uploads to sales unit...</Text>
+                   
+            </View>
+
+        ),
+    });
+}, );
+
 
 const pickImage = async () => {
     try {
@@ -108,15 +125,19 @@ const pickImage = async () => {
             <ListItem.Input
               containerStyle={{
                 borderWidth: 0.5,
+                borderRadius:10,
+                
               }}
               inputStyle={{
-                height: height * 0.4,
+                height: height * 0.2,
               }}
-              placeholder="Write something about your product..."
+              placeholder="Write something about your product best in 5 lines..."
               multiline={true}
               value={feeds}
               onChangeText={(val) => setFeeds(val)}
               textAlign="left"
+              errorMessage="best practice is to write less than 3 line or exact 5 lines"
+            
             />
           </ListItem>
 
@@ -131,21 +152,31 @@ const pickImage = async () => {
               }}
             />
           )}
+        </ScrollView>
+        <View
+        style={{
+          display:"flex",
+          flexDirection:"row"
+        }}
+        >
 
-          <Button
+        
+        <View>
+<Button
             onPress={pickImage}
             buttonStyle={{
               margin: 10,
-              width: 300,
+              width: 100,
               padding: 10,
+              borderRadius:10,
               backgroundColor: "darkblue",
               alignSelf: "center",
             }}
             title={image ? "Replace Image" : "Add Image"}
           />
-        </ScrollView>
-
-        <Button
+        </View>
+        <View>
+       <Button
           onPress={() => {
             if (feeds.length < 15) {
               showMessage({
@@ -159,21 +190,41 @@ const pickImage = async () => {
           }}
           buttonStyle={{
             margin: 10,
-            width: 300,
+            width:100,
+            borderRadius:10,
             padding: 10,
             backgroundColor: "darkblue",
             alignSelf: "center",
           }}
-          title={"CONTINUE"}
+          title={"continue"}
           disabled={buttc}
         />
+        </View>
+        
+ </View>
       </View>
 
-      {buttc && <ModalGropu />}
+<View>
+<ListItem>
+  <ListItem.Content>
+    <Text>You can upload your goods for sales</Text>
+    <Text>Please if you are selling a product (e.g giftcards don't upload the picture).</Text>
+    <Text>Or use our gift card Agent to sell your gift card.</Text>
 
+  </ListItem.Content>
+</ListItem>
+</View>
+      {buttc && <ModalGropu />}
       <View style={{ position: "absolute", bottom: 0, marginBottom: 20, alignSelf: "center" }}>
         <Text style={{ color: "#111", fontSize: 16 }}>By Softtellex Inc.</Text>
       </View>
+      <BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.LARGE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
     </SafeAreaView>
   );
 };

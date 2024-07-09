@@ -3,18 +3,25 @@ import { useLayoutEffect } from "react";
 import { View, Text, TextInput, Dimensions, SafeAreaView, Linking, ScrollView } from "react-native";
 import { Button, Divider, Icon, ListItem } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
+import Input from "./input";
 
 
 export default function AdminPanel({ route, navigation }) {
 
-   
+
+   const [visible, setVisible] = useState(false)
+
+
+   const handleClose=()=>{
+      setVisible(!visible)
+   }
+
    useLayoutEffect(() => {
       navigation.setOptions({
          headerTitle: () => (
             <View>
                <Text>Welcome back! </Text>
             </View>
-
          ),
       });
    }, [navigation]);
@@ -53,9 +60,18 @@ export default function AdminPanel({ route, navigation }) {
                   </ListItem.Content>
                   <ListItem.Chevron />
                </ListItem>
+               <ListItem>
+                  <Icon
+                     onPress={() => Linking.openURL("https://n3tdata.com/api")}
+                     name="gift" color="darkblue" type="font-awesome" raised />
+                  <ListItem.Content>
+                     <Text>
+                        Fund Gift wallet
+                     </Text>
+                  </ListItem.Content>
+                  <ListItem.Chevron />
+               </ListItem>
             </View>
-
-
             <Divider />
             <View>
                <Text
@@ -75,6 +91,7 @@ export default function AdminPanel({ route, navigation }) {
 
                   <View>
                      <Icon
+                     disabled
                      onPress={()=>showMessage({
                         message:"Features coming in soon!",
                      })}
@@ -104,19 +121,28 @@ export default function AdminPanel({ route, navigation }) {
                alignItems: "center",
                alignContent: "space-between",
                justifyContent: "space-around"
-
             }}>
-               <View><Icon size={30} color="darkblue" raised name="receipt" />
-
+               <View><Icon
+               disabled
+               onPress={()=>setVisible(!visible)}
+               size={30} color="darkblue" raised name="receipt" /> 
                   <Text style={{
                      textAlign: "center"
-                  }}>Check receipt</Text></View>
-               <View><Icon size={30} color="darkblue" raised name="send" />
+                  }}>Check receipt</Text>
+                  
+                  </View>
+               <View><Icon
+               disabled
+               size={30} color="darkblue" raised name="send" />
                   <Text style={{
                      textAlign: "center"
                   }}>Refund</Text></View>
-
             </View>
+            <Input 
+            visible={visible}
+            onClose={handleClose}
+            route={route?.params?.key}
+            />
          </ScrollView>
 
       </SafeAreaView>

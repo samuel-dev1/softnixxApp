@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { View, Text, TextInput, Dimensions, ActivityIndicator, SafeAreaView, Alert, Modal, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Dimensions, ActivityIndicator, SafeAreaView, Alert, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import { BottomSheet, Button, Divider, Icon, ListItem, SearchBar, Text as Tx } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
-import { useFocusEffect } from "@react-navigation/native";
 import Icons from '@expo/vector-icons/MaterialCommunityIcons';
 const { width, height } = Dimensions.get("window")
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlatList } from "react-native";
-import ModalGropu from "../indicator/indicator";
 import MyPopup from "../indicator/flayerpop";
 
 

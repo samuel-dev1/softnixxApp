@@ -610,7 +610,13 @@ export default function Tv({ route, navigation }) {
             </ScrollView>
 {loading?<ModalGropu />:null}
             <OpenModal />
-            <CustomOverlay isVisible={overlay} onClose={setOverlay} route={route} amount={Amount} phone={smartcardMettP} view={handleView}  />
+            <CustomOverlay
+             isVisible={overlay}
+              onClose={setOverlay} 
+              route={route}
+               amount={Amount}
+                phone={smartcardMettP} 
+                view={handleView}  />
         </View>
     )
 }

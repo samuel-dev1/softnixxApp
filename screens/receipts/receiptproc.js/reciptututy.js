@@ -1,13 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, SafeAreaView, FlatList, ActivityIndicator } from "react-native";
-import { Badge, Divider, Icon, ListItem, Avatar } from "react-native-elements";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { View, Text, SafeAreaView, FlatList, ActivityIndicator} from "react-native";
+import { Badge, Icon, ListItem, Avatar } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
+
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-8806729694496674/9982521906';
 
 const Receipt = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [optional, setOptional] = useState(null);
   const [loading, setLoading] = useState(true);
+
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <View>
+          <Text>Softnixx receipt</Text>
+        </View>
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const getDetails = async () => {
@@ -130,6 +145,15 @@ const Receipt = ({ route, navigation }) => {
           data={data}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
+          ListEmptyComponent={
+            <BannerAd
+            unitId={adUnitId}
+            size={BannerAdSize.LARGE_BANNER}
+            requestOptions={{
+              requestNonPersonalizedAdsOnly: true,
+            }}
+          />
+          }
           ListHeaderComponent={
             <View style={{
               flexDirection: "row",

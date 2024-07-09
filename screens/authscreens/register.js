@@ -23,6 +23,7 @@ export default function SignInPage() {
   const navigation = useNavigation()
   const [passwordError, setPasswordError] = React.useState('');
 
+
   const handlePasswordChange = (val) => {
     setPassword(val);
     if (val.length < 6 || !/[A-Z]/.test(val)) {
@@ -164,7 +165,7 @@ export default function SignInPage() {
             marginTop: 10,
 
           }} size={"large"} source={require("../../assets/show.png")} />
-          <Text style={styles.data}>Hi,<Text style={styles.h3} h3>create account</Text>Very easy!</Text>
+          <Text style={styles.data}><Text style={styles.h3} h3>create account</Text></Text>
         </View>
         <ListItem bottomDivider>
   <Icon raised name='user-circle' type='font-awesome' size={16} color="gray" />
@@ -220,7 +221,13 @@ export default function SignInPage() {
   </ListItem.Content>
 </ListItem>
 <ListItem >
-  <ListItem.CheckBox checked={isEnabled} onPress={() => setIsEnabled(!isEnabled)} size={20} />
+  <ListItem.CheckBox
+  iconType='font-awesome'
+  checkedIcon={"check-circle"}
+  checkedColor='darkblue'
+  uncheckedColor='red'
+   checked={isEnabled}
+    onPress={() => setIsEnabled(!isEnabled)} size={20} />
   <ListItem.Content>
     <Text>
       Terms and Conditions
@@ -231,10 +238,6 @@ export default function SignInPage() {
 <Button onPress={createUser} buttonStyle={{ padding: 10, width: 150, alignSelf: "center", backgroundColor: "darkblue" }} type='solid' title="Register" />
 <ListItem>
 </ListItem>
-
-
-
-
         <View style={{ display: "flex", flexDirection: 'row', alignSelf: "center", alignItems: "center", margin: 5, padding: 5 }}>
           <Button onPress={() => navigation.navigate("login")} type='plain' title={"Login"} />
           <Button onPress={() => Linking.openURL('mailto:softtellex@example.com')} icon={{ name: "question-circle", type: "font-awesome", size: 16 }} type="outline" title={"Help?"} />
@@ -254,10 +257,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   h3: {
-    color: "green",
+    color: "white",
     textAlign: "center",
-    fontSize: 15,
+    fontSize: 17,
+    marginTop:5,
     fontWeight: "bold",
+
     textDecorationStyle: "dotted",
   },
   container1: {

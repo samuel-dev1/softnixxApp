@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Alert} from "react-native";
 import { BottomSheet, Icon } from "react-native-elements";
 import { Dimensions } from "react-native";
 import { TextInput } from "react-native";

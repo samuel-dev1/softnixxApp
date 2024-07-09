@@ -1,7 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native-elements';
 
 const GiftClaimComponent = ({ item, onClaimPress }) => {
+
+  const generateColor = (index) => {
+    const colors = ["darkgreen", "#668", "#8bc34a", "#03a9f4", "#e91e63"];
+    return colors[index % colors.length];
+  };
+
    function MoneyConvert(num) {
       try {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ".00";
@@ -17,14 +24,16 @@ const GiftClaimComponent = ({ item, onClaimPress }) => {
       <Text style={styles.price}>N{MoneyConvert(item.price)}</Text>
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>
-          {item.neede_uer === 0 ? 'Exhausted' : `Users Needed: ${item.neede_uer}`}
+          {item.neede_uer === 0 ? 'Exhausted' : `${item.neede_uer} active left`}
         </Text>
-        <Text style={styles.infoText}>{`${item.started_time}pm`}</Text>
-        <Text style={styles.infoText}>{`Time Needed: ${item.time_need}`}</Text>
+        <Text style={styles.infoText}>{`On: ${item.time_need}`} {`${item.started_time}pm`}  </Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={onClaimPress}>
-        <Text style={styles.buttonText}>CLAIM GIFT</Text>
-      </TouchableOpacity>
+ <Button
+ buttonStyle={{
+  backgroundColor:generateColor(item.id)
+ }}
+ style={styles.but} 
+ title={"CLAIM GIFT"} onPress={onClaimPress} />      
     </View>
   );
 };
@@ -59,12 +68,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
   },
-  button: {
-    backgroundColor: 'darkblue',
-    paddingVertical: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
+
   buttonText: {
     color: '#fff',
     fontSize: 18,

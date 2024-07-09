@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Dimensions, SafeAreaView, StyleSheet } from "react-native";
-import { BottomSheet, Button, Divider, Icon, Input, ListItem } from "react-native-elements";
+import {  Button, Divider, Icon, ListItem } from "react-native-elements";
 import { showMessage } from "react-native-flash-message";
 
 import CustomDropdown from "../extra/dropdown";
-import AntDesign from '@expo/vector-icons/AntDesign';
-
 
 const { width, height } = Dimensions.get("window")
 export default function Transfer({ route, navigation }) {
@@ -52,7 +50,6 @@ export default function Transfer({ route, navigation }) {
             })
             setLoading(false)
             setBottonc(false)
-
         }
     }
     const verifyName = () => {

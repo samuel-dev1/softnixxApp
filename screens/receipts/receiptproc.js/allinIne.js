@@ -3,7 +3,7 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useLayoutEffect } from "react";
 import { useNavigation} from "@react-navigation/native";
-import { SafeAreaView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 //screens
 import Receipt from "./reciptututy";
 import TransferPage from "./transfer";
